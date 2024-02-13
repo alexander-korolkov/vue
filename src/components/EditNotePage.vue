@@ -22,7 +22,7 @@
       <div v-for="(item, index) in note.todos" :key="index">
         <input type="checkbox" v-model="item.completed">
         <input type="text" v-model="item.text">
-        <button @click="deleteTodo(index)">Delete</button>
+        <button @click="deleteTodo(index, item.id)">Delete</button>
       </div>
       <button @click="addTodo">Add Todo</button>
     </div>
@@ -104,9 +104,14 @@ export default {
     addTodo() {
       this.note.todos.push({ text: '', completed: false });
     },
-    deleteTodo(index) {
-      this.note.todos.splice(index, 1);
-      this.saveChanges();
+    async deleteTodo(index, todo_id) {
+      try {
+        this.note.todos.splice(index, 1);
+        const response = await axios.delete(`http://laravel.ddev.site/api/todos/${todo_id}`);
+        console.log('Todo deleted:', response.data);
+      } catch (error) {
+        console.error('Error deleting todo:', error);
+      }
     }
   }
 };
