@@ -48,7 +48,7 @@ export default {
     async fetchNote() {
       try {
         const noteId = this.$route.params.id;
-        const response = await axios.get(`http://laravel.ddev.site/api/notes/${noteId}`);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/notes/${noteId}`);
         this.note = response.data;
         // Save a copy of the original note data
         this.originalNote = { ...this.note };
@@ -58,7 +58,7 @@ export default {
     },
     async saveChanges() {
       try {
-        const response = await axios.put(`http://laravel.ddev.site/api/notes/${this.note.id}`, this.note);
+        const response = await axios.put(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/notes/${this.note.id}`, this.note);
         console.log('Changes saved:', response.data);
         // Update the original note data after saving changes
         this.originalNote = { ...this.note };
@@ -94,7 +94,7 @@ export default {
     },
     async deleteNote() {
       try {
-        const response = await axios.delete(`http://laravel.ddev.site/api/notes/${this.note.id}`);
+        const response = await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/notes/${this.note.id}`);
         console.log('Note deleted:', response.data);
         // Redirect to the home page or another appropriate page after deletion
       } catch (error) {
@@ -107,7 +107,7 @@ export default {
     async deleteTodo(index, todo_id) {
       try {
         this.note.todos.splice(index, 1);
-        const response = await axios.delete(`http://laravel.ddev.site/api/todos/${todo_id}`);
+        const response = await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/todos/${todo_id}`);
         console.log('Todo deleted:', response.data);
       } catch (error) {
         console.error('Error deleting todo:', error);

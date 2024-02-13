@@ -47,7 +47,7 @@ export default {
   methods: {
     async fetchNotes() {
       try {
-        const response = await axios.get('http://laravel.ddev.site/api/notes');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/notes`);
         this.notes = response.data;
       } catch (error) {
         console.error('Error fetching notes:', error);
@@ -55,7 +55,7 @@ export default {
     },
     async createNote() {
       try {
-        const response = await axios.post('http://laravel.ddev.site/api/notes', {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/notes`, {
           title: 'New Note',
           todos: []
         });
@@ -70,7 +70,7 @@ export default {
     async confirmDelete(noteId) {
       if (confirm("Are you sure you want to delete this note?")) {
         try {
-          await axios.delete(`http://laravel.ddev.site/api/notes/${noteId}`);
+          await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/notes/${noteId}`);
           this.notes = this.notes.filter(note => note.id !== noteId);
         } catch (error) {
           console.error('Error deleting note:', error);
